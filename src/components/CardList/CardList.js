@@ -1,15 +1,9 @@
 import React from "react";
 import Card from "../Card/Card";
 
-const CardList = ({ quotes }) => {
-    const cardComponent = quotes.map((quote, i) => {
-        return (
-            <Card
-                key={quotes[i].id}
-                id={quotes[i].id}
-                quote={quotes[i].name}
-            />
-        );
+const CardList = ({ users }) => {
+    const cardComponent = users.map((user, i) => {
+        return <Card key={users[i].id} id={users[i].id} user={users[i].name} />;
     });
 
     return <div>{cardComponent}</div>;

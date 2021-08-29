@@ -3,6 +3,7 @@ import { React, Component } from "react";
 import "./App.css";
 import CardList from "../components/CardList/CardList";
 import SearchBox from "../components/SearchBox/SearchBox";
+import Scroll from "../components/Scroll/Scroll";
 
 // import { quotes } from "../quotes";
 
@@ -10,7 +11,7 @@ class App extends Component {
     constructor() {
         super();
         this.state = {
-            quotes: [],
+            users: [],
             searchfield: "",
         };
     }
@@ -20,7 +21,7 @@ class App extends Component {
             .then((response) => response.json())
             .then((users) => {
                 // this.setState({ });
-                this.setState({ quotes: users });
+                this.setState({ users: users });
             });
     }
 
@@ -29,30 +30,29 @@ class App extends Component {
     };
 
     render() {
-        const filteredQuotes = this.state.quotes.filter((quote) => {
-            return quote.name
-                .toLowerCase()
-                .includes(this.state.searchfield.toLowerCase());
+        const { users, searchfield } = this.state;
+        const filteredUsers = users.filter((user) => {
+            return user.name.toLowerCase().includes(searchfield.toLowerCase());
         });
-        if (this.state.quotes.length === 0) {
-            return <h1>Loading ...</h1>;
-        } else {
-            return (
-                <div>
-                    <div className="flex">
-                        <div className="w-60 pa1"></div>
-                        <div className="w-30 pa1 tc">
-                            <h1 id="header" className="mt5">
-                                Zitate Chuck Norris
-                            </h1>
-                            <SearchBox searchChange={this.onSearchChange} />
-                            <CardList quotes={filteredQuotes} />
-                        </div>
-                        <div className="w-10 pa1"></div>
+        return !users.length ? (
+            <h1>Loading ...</h1>
+        ) : (
+            <div>
+                <div className="flex">
+                    <div className="pa1"></div>
+                    <div className="pa1 tc">
+                        <h1 id="header" className="ma4">
+                            Kitten-Zoo
+                        </h1>
+                        <SearchBox searchChange={this.onSearchChange} />
+                        <Scroll>
+                            <CardList users={filteredUsers} />
+                        </Scroll>
                     </div>
+                    <div className="w-10 pa1"></div>
                 </div>
-            );
-        }
+            </div>
+        );
     }
 }
 
